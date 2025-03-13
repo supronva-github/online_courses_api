@@ -26,6 +26,9 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # gem 'rack-cors'
 gem 'bcrypt'
 
+gem 'ffi', '~> 1.15.0'
+gem 'dotenv'
+
 # JSON
 gem 'blueprinter'
 gem 'oj'

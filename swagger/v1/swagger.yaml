@@ -16,9 +16,19 @@ paths:
                 type: object
                 properties:
                   data:
-                    type: array
-                    items:
-                      type: object
+                    oneOf:
+                    - type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - name
+                    - type: object
                       properties:
                         id:
                           type: integer
@@ -41,17 +51,71 @@ paths:
                 type: object
                 properties:
                   data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      name:
-                        type: string
-                    required:
-                    - id
-                    - name
+                    oneOf:
+                    - type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - name
+                    - type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                      required:
+                      - id
+                      - name
                 required:
                 - data
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum:
+                        - bad_request
+                      message:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - errors
+        '422':
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum:
+                        - unprocessable_entity
+                      message:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - errors
       requestBody:
         content:
           application/json:
@@ -88,17 +152,50 @@ paths:
                 type: object
                 properties:
                   data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      name:
-                        type: string
-                    required:
-                    - id
-                    - name
+                    oneOf:
+                    - type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - name
+                    - type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                      required:
+                      - id
+                      - name
                 required:
                 - data
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum:
+                        - not_found
+                      message:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - errors
     put:
       summary: update competence
       parameters:
@@ -117,17 +214,92 @@ paths:
                 type: object
                 properties:
                   data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      name:
-                        type: string
-                    required:
-                    - id
-                    - name
+                    oneOf:
+                    - type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - name
+                    - type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                      required:
+                      - id
+                      - name
                 required:
                 - data
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum:
+                        - not_found
+                      message:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - errors
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum:
+                        - bad_request
+                      message:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - errors
+        '422':
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum:
+                        - unprocessable_entity
+                      message:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - errors
       requestBody:
         content:
           application/json:
@@ -157,6 +329,27 @@ paths:
       responses:
         '204':
           description: competence deleted
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum:
+                        - not_found
+                      message:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - errors
 servers:
 - url: http://{defaultHost}
   variables:

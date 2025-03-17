@@ -1,13 +1,50 @@
-require 'swagger_helper'
-require 'rails_helper'
+require "swagger_helper"
+require "rails_helper"
 
 RSpec.describe "Api::V1::Competences", type: :request do
+
+  RSpec.shared_examples "returns not found" do
+    context "when competence is not found" do
+      let(:id) { 999_999 }
+
+      include_examples "not_found",
+        resource_name: "Competence",
+        id: 999_999
+    end
+  end
+
+  RSpec.shared_examples "returns bad request" do
+    context "when competence is missing or empty" do
+      let(:competence) { {} }
+
+      include_examples "bad_request"
+    end
+  end
+
+  RSpec.shared_examples "returns unprocessable entity" do
+    context "when validation fails" do
+      let(:existing_competence) { create(:competence, name: "Existing Competence") }
+      let(:competence) { { name: existing_competence.name } }
+
+      response "422", "unprocessable entity" do
+        schema Swagger::Schemas::ErrorSchema.schema("unprocessable_entity")
+
+        run_test! do
+          expect(response).to have_http_status(:unprocessable_entity)
+          parsed_response = JSON.parse(response.body)
+          expect(parsed_response["errors"]["code"]).to eq("unprocessable_entity")
+          expect(parsed_response["errors"]["message"]).to eq("Name has already been taken")
+        end
+      end
+    end
+  end
+
   describe "GET #index" do
     path "/api/v1/competences" do
       get "list competences" do
         produces "application/json"
-        response '200', 'competences' do
-          include_examples "competences_index_schema"
+        response "200", "competences" do
+          schema Swagger::Schemas::CompetenceSchema.schema
 
           run_test!
         end
@@ -24,11 +61,13 @@ RSpec.describe "Api::V1::Competences", type: :request do
         let(:competence) { create(:competence) }
         let(:id) { competence.id }
 
-        response '200', 'competences' do
-          include_examples "competence_show_schema"
+        response "200", "competences" do
+          schema Swagger::Schemas::CompetenceSchema.schema
 
           run_test!
         end
+
+        include_examples "returns not found"
       end
     end
   end
@@ -54,13 +93,16 @@ RSpec.describe "Api::V1::Competences", type: :request do
 
           let(:competence) { { name: "New Competence" } }
 
-          response '201', 'competence created' do
-            include_examples "competence_show_schema"
+          response "201", "competence created" do
+            schema Swagger::Schemas::CompetenceSchema.schema
 
             run_test! do
               expect(response).to have_http_status(:created)
             end
           end
+
+          include_examples "returns bad request"
+          include_examples "returns unprocessable entity"
       end
     end
   end
@@ -89,14 +131,18 @@ RSpec.describe "Api::V1::Competences", type: :request do
         let(:id) { competence_instance.id }
         let(:competence) { { name: "Updated Competence" } }
 
-        response '200', 'competence updated' do
-          include_examples "competence_show_schema"
+        response "200", "competence updated" do
+          schema Swagger::Schemas::CompetenceSchema.schema
 
           run_test! do
             expect(response).to have_http_status(:ok)
             expect(JSON.parse(response.body)["data"]["name"]).to eq("Updated Competence")
           end
         end
+
+        include_examples "returns not found"
+        include_examples "returns bad request"
+        include_examples "returns unprocessable entity"
       end
     end
   end
@@ -110,11 +156,13 @@ RSpec.describe "Api::V1::Competences", type: :request do
         let(:competence) { create(:competence) }
         let(:id) { competence.id }
 
-        response '204', 'competence deleted' do
+        response "204", "competence deleted" do
           run_test! do
             expect(response).to have_http_status(:no_content)
           end
         end
+
+        include_examples "returns not found"
       end
     end
   end

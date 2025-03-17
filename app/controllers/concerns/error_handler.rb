@@ -5,7 +5,7 @@ module ErrorHandler
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
     rescue_from ActionController::ParameterMissing, with: :handle_bad_request
     rescue_from ActiveRecord::RecordInvalid, with: :handle_validation_error
-    rescue_from StandardError, with: :handle_server_error unless Rails.env.development?
+    rescue_from StandardError, with: :handle_server_error unless Rails.env.development? || Rails.env.test?
   end
 
   private

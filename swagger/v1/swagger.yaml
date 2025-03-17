@@ -1,0 +1,164 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/competences":
+    get:
+      summary: list competences
+      responses:
+        '200':
+          description: competences
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                      required:
+                      - id
+                      - name
+                required:
+                - data
+    post:
+      summary: create competence
+      parameters: []
+      responses:
+        '201':
+          description: competence created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                    required:
+                    - id
+                    - name
+                required:
+                - data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                competence:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: Competence name
+                  required:
+                  - name
+              required:
+              - competence
+        required: true
+  "/api/v1/competences/{id}":
+    get:
+      summary: show competence
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Competence ID
+        schema:
+          type: string
+      responses:
+        '200':
+          description: competences
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                    required:
+                    - id
+                    - name
+                required:
+                - data
+    put:
+      summary: update competence
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Competence ID
+        schema:
+          type: string
+      responses:
+        '200':
+          description: competence updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                    required:
+                    - id
+                    - name
+                required:
+                - data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                competence:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: Competence name
+                  required:
+                  - name
+              required:
+              - competence
+        required: true
+    delete:
+      summary: delete competence
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Competence ID
+        schema:
+          type: string
+      responses:
+        '204':
+          description: competence deleted
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: 127.0.0.1:3000

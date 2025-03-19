@@ -864,6 +864,42 @@ paths:
                     - message
                 required:
                 - errors
+  "/api/v1/users/{id}":
+    delete:
+      summary: delete user
+      tags:
+      - Users API
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: User ID
+        schema:
+          type: string
+      responses:
+        '204':
+          description: user deleted
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum:
+                        - not_found
+                      message:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - errors
 servers:
 - url: http://{defaultHost}
   variables:

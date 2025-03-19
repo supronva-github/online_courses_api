@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2025_03_04_164301) do
   create_table "courses", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
-    t.bigint "author_id", null: false
+    t.bigint "author_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["author_id"], name: "index_courses_on_author_id"

@@ -15,7 +15,7 @@ RSpec.describe "Api::V1::Competences", type: :request do
 
   RSpec.shared_examples "returns bad request" do
     context "when competence is missing or empty" do
-      let(:competence) { {} }
+      let(:competence_params) { {} }
 
       include_examples "bad_request"
     end
@@ -24,7 +24,7 @@ RSpec.describe "Api::V1::Competences", type: :request do
   RSpec.shared_examples "returns unprocessable entity" do
     context "when validation fails" do
       let(:existing_competence) { create(:competence, name: "Existing Competence") }
-      let(:competence) { { name: existing_competence.name } }
+      let(:competence_params) { { name: existing_competence.name } }
 
       response "422", "unprocessable entity" do
         schema Swagger::Schemas::ErrorSchema.schema("unprocessable_entity")
@@ -42,6 +42,7 @@ RSpec.describe "Api::V1::Competences", type: :request do
   describe "GET #index" do
     path "/api/v1/competences" do
       get "list competences" do
+        tags "Competence API"
         produces "application/json"
         response "200", "competences" do
           schema Swagger::Schemas::CompetenceSchema.schema
@@ -55,6 +56,7 @@ RSpec.describe "Api::V1::Competences", type: :request do
   describe "GET #show" do
     path "/api/v1/competences/{id}" do
       get "show competence" do
+        tags "Competence API"
         produces "application/json"
         parameter name: :id, in: :path, type: :string, required: true, description: "Competence ID"
 
@@ -75,15 +77,16 @@ RSpec.describe "Api::V1::Competences", type: :request do
   describe "POST #create" do
     path "/api/v1/competences" do
       post "create competence" do
+        tags "Competence API"
         produces "application/json"
         consumes "application/json"
-        parameter name: :competence, in: :body, required: true, schema: {
+        parameter name: :competence_params, in: :body, required: true, schema: {
           type: :object,
           properties: {
             competence: {
               type: :object,
               properties: {
-                name: { type: :string, description: "Competence name" }
+                name: { type: :string, example: "Competence name" }
               },
               required: ["name"]
             }
@@ -91,7 +94,7 @@ RSpec.describe "Api::V1::Competences", type: :request do
           required: ["competence"]
         }
 
-          let(:competence) { { name: "New Competence" } }
+          let(:competence_params) { { name: "New Competence" } }
 
           response "201", "competence created" do
             schema Swagger::Schemas::CompetenceSchema.schema
@@ -110,16 +113,17 @@ RSpec.describe "Api::V1::Competences", type: :request do
   describe "PUT #update" do
     path "/api/v1/competences/{id}" do
       put "update competence" do
+        tags "Competence API"
         produces "application/json"
         consumes "application/json"
         parameter name: :id, in: :path, type: :string, required: true, description: "Competence ID"
-        parameter name: :competence, in: :body, required: true, schema: {
+        parameter name: :competence_params, in: :body, required: true, schema: {
           type: :object,
           properties: {
             competence: {
               type: :object,
               properties: {
-                name: { type: :string, description: "Competence name" }
+                name: { type: :string, example: "Competence name" }
               },
               required: ["name"]
             }
@@ -129,7 +133,7 @@ RSpec.describe "Api::V1::Competences", type: :request do
 
         let(:competence_instance) { create(:competence) }
         let(:id) { competence_instance.id }
-        let(:competence) { { name: "Updated Competence" } }
+        let(:competence_params) { { name: "Updated Competence" } }
 
         response "200", "competence updated" do
           schema Swagger::Schemas::CompetenceSchema.schema
@@ -150,6 +154,7 @@ RSpec.describe "Api::V1::Competences", type: :request do
   describe "DELETE #destroy" do
     path "/api/v1/competences/{id}" do
       delete "delete competence" do
+        tags "Competence API"
         produces "application/json"
         parameter name: :id, in: :path, type: :string, required: true, description: "Competence ID"
 

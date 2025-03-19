@@ -34,6 +34,7 @@ module OnlineCourses
 
     config.generators do |g|
       g.test_framework :rspec
+      g.factory_bot dir: 'spec/factories'
     end
 
     # Only loads a smaller set of middleware suitable for API only apps.

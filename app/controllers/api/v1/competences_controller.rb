@@ -1,44 +1,50 @@
-class Api::V1::CompetencesController < ApplicationController
-  include ErrorHandler
+# frozen_string_literal: true
 
-  before_action :set_competences, only: %i[index]
-  before_action :set_competence, only: %i[show update destroy]
+module Api
+  module V1
+    class CompetencesController < ApplicationController
+      include ErrorHandler
 
-  def index
-    render json: CompetenceBlueprint.render_as_json(@competences, root: :data)
-  end
+      before_action :set_competences, only: %i[index]
+      before_action :set_competence, only: %i[show update destroy]
 
-  def show
-    render json: CompetenceBlueprint.render_as_json(@competence, root: :data)
-  end
+      def index
+        render json: CompetenceBlueprint.render_as_json(@competences, root: :data)
+      end
 
-  def create
-    @competence = Competence.new(competence_params)
-    @competence.save!
-    render json: CompetenceBlueprint.render_as_json(@competence, root: :data), status: :created
-  end
+      def show
+        render json: CompetenceBlueprint.render_as_json(@competence, root: :data)
+      end
 
-  def update
-    @competence.update!(competence_params)
-    render json: CompetenceBlueprint.render_as_json(@competence, root: :data)
-  end
+      def create
+        @competence = Competence.new(competence_params)
+        @competence.save!
+        render json: CompetenceBlueprint.render_as_json(@competence, root: :data), status: :created
+      end
 
-  def destroy
-    @competence.destroy
-    head :no_content
-  end
+      def update
+        @competence.update!(competence_params)
+        render json: CompetenceBlueprint.render_as_json(@competence, root: :data)
+      end
 
-  private
+      def destroy
+        @competence.destroy
+        head :no_content
+      end
 
-  def set_competences
-    @competences = Competence.all
-  end
+      private
 
-  def set_competence
-    @competence = Competence.find(params[:id])
-  end
+      def set_competences
+        @competences = Competence.all
+      end
 
-  def competence_params
-    params.require(:competence).permit(:name)
+      def set_competence
+        @competence = Competence.find(params[:id])
+      end
+
+      def competence_params
+        params.require(:competence).permit(:name)
+      end
+    end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ErrorHandler
   extend ActiveSupport::Concern
 
@@ -37,17 +39,17 @@ module ErrorHandler
       :unprocessable_entity,
       {
         code: :unprocessable_entity,
-        message: exception.record.errors.full_messages.join(", ")
+        message: exception.record.errors.full_messages.join(', ')
       }
     )
   end
 
-  def handle_server_error(exception)
+  def handle_server_error(_exception)
     render_error(
       :internal_server_error,
       {
         code: :internal_server_error,
-        message: "Something went wrong on our end"
+        message: 'Something went wrong on our end'
       }
     )
   end

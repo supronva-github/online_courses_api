@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CourseBlueprint < Blueprinter::Base
   identifier :id
   fields :title

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# rubocop:disable Metrics/MethodLength
 module Swagger
   module Schemas
     class CompetenceSchema
@@ -29,3 +32,4 @@ module Swagger
     end
   end
 end
+# rubocop:enable Metrics/MethodLength

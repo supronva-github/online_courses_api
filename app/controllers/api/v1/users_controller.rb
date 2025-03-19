@@ -1,16 +1,22 @@
-class Api::V1::UsersController < ApplicationController
-  include ErrorHandler
+# frozen_string_literal: true
 
-  before_action :set_user, only: %i[destroy]
+module Api
+  module V1
+    class UsersController < ApplicationController
+      include ErrorHandler
 
-  def destroy
-    @user.destroy
-    head :no_content
-  end
+      before_action :set_user, only: %i[destroy]
 
-  private
+      def destroy
+        @user.destroy
+        head :no_content
+      end
 
-  def set_user
-    @user = User.find(params[:id])
+      private
+
+      def set_user
+        @user = User.find(params[:id])
+      end
+    end
   end
 end

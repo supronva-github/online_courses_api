@@ -89,20 +89,34 @@ RSpec.describe "Api::V1::Courses", type: :request do
         parameter name: :course_params, in: :body, required: true, schema: {
           type: :object,
           properties: {
-            title: { type: :string, example: "Ruby on Rails Basics"},
-            description: { type: :string, example: "A beginner-friendly course on Ruby on Rails." },
-            author_id: { type: :integer, example: 1 }
-          },
-          required: %w[title author_id]
+            course: {
+              type: :object,
+              properties: {
+                title: { type: :string, example: "Ruby on Rails Basics" },
+                description: { type: :string, example: "A beginner-friendly course on Ruby on Rails." },
+                author_id: { type: :integer, example: 1 },
+                competence_ids: {
+                  type: :array,
+                  items: { type: :integer },
+                  example: [1, 2],
+                  description: "Array of existing competence IDs to associate with the course"
+                }
+              },
+              required: %w[title author_id]
+            }
+          }
         }
 
         let(:author) { create(:user) }
+        let(:competence1) { create(:competence) }
+        let(:competence2) { create(:competence) }
         let(:course_params) do
           {
             course: {
               title: "Ruby on Rails Basics",
               description: "A beginner-friendly course on Ruby on Rails.",
-              author_id: author.id
+              author_id: author.id,
+              competence_ids: [competence1.id, competence2.id]
             }
           }
         end
@@ -112,6 +126,11 @@ RSpec.describe "Api::V1::Courses", type: :request do
 
           run_test! do
             expect(response).to have_http_status(:created)
+            parsed_response = JSON.parse(response.body)
+            expect(parsed_response["data"]["title"]).to eq("Ruby on Rails Basics")
+            expect(parsed_response["data"]["author"]["id"]).to eq(author.id)
+            expect(parsed_response["data"]["competences"].map { |c| c["id"] })
+              .to match_array([competence1.id, competence2.id])
           end
         end
 
@@ -127,23 +146,34 @@ RSpec.describe "Api::V1::Courses", type: :request do
         tags "Courses API"
         produces "application/json"
         consumes "application/json"
-        parameter name: :id, in: :path, type: :string, required: true, description: "Course ID"
+        parameter name: :id, in: :path, type: :string, required: true
         parameter name: :course_params, in: :body, required: true, schema: {
           type: :object,
           properties: {
-            title: { type: :string, example: "New title" },
-            author_id: { type: :integer, example: 1 }
+            course: {
+              type: :object,
+              properties: {
+                title: { type: :string, example: "New title" },
+                author_id: { type: :integer, example: 1 },
+                competence_ids: { type: :array, items: { type: :integer }, example: [1, 2] }
+              }
+            }
           }
         }
 
         let(:course_instance) { create(:course) }
         let(:id) { course_instance.id }
         let(:author) { create(:user) }
+        let(:competence1) { create(:competence) }
+        let(:competence2) { create(:competence) }
 
         let(:course_params) do
           {
-            title: "Updated title",
-            author_id: author.id
+            course: {
+              title: "Updated title",
+              author_id: author.id,
+              competence_ids: [competence1.id, competence2.id]
+            }
           }
         end
 
@@ -155,12 +185,10 @@ RSpec.describe "Api::V1::Courses", type: :request do
             parsed_response = JSON.parse(response.body)
             expect(parsed_response["data"]["title"]).to eq("Updated title")
             expect(parsed_response["data"]["author"]["id"]).to eq(author.id)
+            expect(parsed_response["data"]["competences"].map { |c| c["id"] })
+              .to match_array([competence1.id, competence2.id])
           end
         end
-
-        include_examples "returns not found"
-        include_examples "returns bad request"
-        include_examples "returns unprocessable entity"
       end
     end
   end

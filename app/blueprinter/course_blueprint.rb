@@ -1,5 +1,4 @@
 class CourseBlueprint < Blueprinter::Base
-  puts caller
   identifier :id
   fields :title
   association :competences, blueprint: CompetenceBlueprint

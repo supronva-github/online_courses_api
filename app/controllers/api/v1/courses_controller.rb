@@ -39,6 +39,11 @@ class Api::V1::CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(:title, :description, :author_id)
+    params.require(:course).permit(
+      :title,
+      :description,
+      :author_id,
+      competence_ids: []
+    )
   end
 end

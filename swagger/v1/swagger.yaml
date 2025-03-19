@@ -578,18 +578,30 @@ paths:
             schema:
               type: object
               properties:
-                title:
-                  type: string
-                  example: Ruby on Rails Basics
-                description:
-                  type: string
-                  example: A beginner-friendly course on Ruby on Rails.
-                author_id:
-                  type: integer
-                  example: 1
-              required:
-              - title
-              - author_id
+                course:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: Ruby on Rails Basics
+                    description:
+                      type: string
+                      example: A beginner-friendly course on Ruby on Rails.
+                    author_id:
+                      type: integer
+                      example: 1
+                    competence_ids:
+                      type: array
+                      items:
+                        type: integer
+                      example:
+                      - 1
+                      - 2
+                      description: Array of existing competence IDs to associate with
+                        the course
+                  required:
+                  - title
+                  - author_id
         required: true
   "/api/v1/courses/{id}":
     get:
@@ -712,7 +724,6 @@ paths:
       - name: id
         in: path
         required: true
-        description: Course ID
         schema:
           type: string
       responses:
@@ -795,81 +806,28 @@ paths:
                       - competences
                 required:
                 - data
-        '404':
-          description: not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - not_found
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
-        '400':
-          description: bad request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - bad_request
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
-        '422':
-          description: unprocessable entity
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - unprocessable_entity
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                title:
-                  type: string
-                  example: New title
-                author_id:
-                  type: integer
-                  example: 1
+                course:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: New title
+                    author_id:
+                      type: integer
+                      example: 1
+                    competence_ids:
+                      type: array
+                      items:
+                        type: integer
+                      example:
+                      - 1
+                      - 2
         required: true
     delete:
       summary: delete course

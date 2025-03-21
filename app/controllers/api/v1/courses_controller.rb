@@ -3,7 +3,6 @@
 module Api
   module V1
     class CoursesController < ApplicationController
-      include ErrorHandler
 
       before_action :set_courses, only: %i[index]
       before_action :set_course, only: %i[show update destroy]

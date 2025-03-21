@@ -74,4 +74,4 @@
  - git clone git@github.com:supronva-github/online_courses_api.git
  - cd online_courses_api
  - docker compose up -d
- - go to http://localhost:3000/api-docs/index.html
+ - go to http://127.0.0.1:3000/api-docs/index.html

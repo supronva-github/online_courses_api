@@ -15,32 +15,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    oneOf:
-                    - type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          name:
-                            type: string
-                        required:
-                        - id
-                        - name
-                    - type: object
-                      properties:
-                        id:
-                          type: integer
-                        name:
-                          type: string
-                      required:
-                      - id
-                      - name
-                required:
-                - data
+                "$ref": "#/components/schemas/competence_schema"
     post:
       summary: create competence
       tags:
@@ -52,74 +27,19 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    oneOf:
-                    - type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          name:
-                            type: string
-                        required:
-                        - id
-                        - name
-                    - type: object
-                      properties:
-                        id:
-                          type: integer
-                        name:
-                          type: string
-                      required:
-                      - id
-                      - name
-                required:
-                - data
+                "$ref": "#/components/schemas/competence_schema"
         '400':
           description: bad request
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - bad_request
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
+                "$ref": "#/components/schemas/bad_request_schema"
         '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - unprocessable_entity
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
+                "$ref": "#/components/schemas/unprocessable_entity_schema"
       requestBody:
         content:
           application/json:
@@ -155,53 +75,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    oneOf:
-                    - type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          name:
-                            type: string
-                        required:
-                        - id
-                        - name
-                    - type: object
-                      properties:
-                        id:
-                          type: integer
-                        name:
-                          type: string
-                      required:
-                      - id
-                      - name
-                required:
-                - data
+                "$ref": "#/components/schemas/competence_schema"
         '404':
           description: not found
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - not_found
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
+                "$ref": "#/components/schemas/not_found_schema"
     put:
       summary: update competence
       tags:
@@ -219,95 +99,25 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    oneOf:
-                    - type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          name:
-                            type: string
-                        required:
-                        - id
-                        - name
-                    - type: object
-                      properties:
-                        id:
-                          type: integer
-                        name:
-                          type: string
-                      required:
-                      - id
-                      - name
-                required:
-                - data
+                "$ref": "#/components/schemas/competence_schema"
         '404':
           description: not found
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - not_found
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
+                "$ref": "#/components/schemas/not_found_schema"
         '400':
           description: bad request
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - bad_request
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
+                "$ref": "#/components/schemas/bad_request_schema"
         '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - unprocessable_entity
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
+                "$ref": "#/components/schemas/unprocessable_entity_schema"
       requestBody:
         content:
           application/json:
@@ -344,22 +154,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - not_found
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
+                "$ref": "#/components/schemas/not_found_schema"
   "/api/v1/courses":
     get:
       summary: list courses
@@ -371,80 +166,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    oneOf:
-                    - type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          title:
-                            type: string
-                          author:
-                            type: object
-                            properties:
-                              id:
-                                type: integer
-                              name:
-                                type: string
-                            required:
-                            - id
-                            - name
-                          competences:
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                id:
-                                  type: integer
-                                name:
-                                  type: string
-                              required:
-                              - id
-                              - name
-                        required:
-                        - id
-                        - title
-                        - author
-                        - competences
-                    - type: object
-                      properties:
-                        id:
-                          type: integer
-                        title:
-                          type: string
-                        author:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            name:
-                              type: string
-                          required:
-                          - id
-                          - name
-                        competences:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              id:
-                                type: integer
-                              name:
-                                type: string
-                            required:
-                            - id
-                            - name
-                      required:
-                      - id
-                      - title
-                      - author
-                      - competences
-                required:
-                - data
+                "$ref": "#/components/schemas/course_schema"
     post:
       summary: create course
       tags:
@@ -456,122 +178,19 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    oneOf:
-                    - type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          title:
-                            type: string
-                          author:
-                            type: object
-                            properties:
-                              id:
-                                type: integer
-                              name:
-                                type: string
-                            required:
-                            - id
-                            - name
-                          competences:
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                id:
-                                  type: integer
-                                name:
-                                  type: string
-                              required:
-                              - id
-                              - name
-                        required:
-                        - id
-                        - title
-                        - author
-                        - competences
-                    - type: object
-                      properties:
-                        id:
-                          type: integer
-                        title:
-                          type: string
-                        author:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            name:
-                              type: string
-                          required:
-                          - id
-                          - name
-                        competences:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              id:
-                                type: integer
-                              name:
-                                type: string
-                            required:
-                            - id
-                            - name
-                      required:
-                      - id
-                      - title
-                      - author
-                      - competences
-                required:
-                - data
+                "$ref": "#/components/schemas/course_schema"
         '400':
           description: bad request
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - bad_request
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
+                "$ref": "#/components/schemas/bad_request_schema"
         '422':
           description: unprocessable entity
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - unprocessable_entity
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
+                "$ref": "#/components/schemas/unprocessable_entity_schema"
       requestBody:
         content:
           application/json:
@@ -621,101 +240,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    oneOf:
-                    - type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          title:
-                            type: string
-                          author:
-                            type: object
-                            properties:
-                              id:
-                                type: integer
-                              name:
-                                type: string
-                            required:
-                            - id
-                            - name
-                          competences:
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                id:
-                                  type: integer
-                                name:
-                                  type: string
-                              required:
-                              - id
-                              - name
-                        required:
-                        - id
-                        - title
-                        - author
-                        - competences
-                    - type: object
-                      properties:
-                        id:
-                          type: integer
-                        title:
-                          type: string
-                        author:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            name:
-                              type: string
-                          required:
-                          - id
-                          - name
-                        competences:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              id:
-                                type: integer
-                              name:
-                                type: string
-                            required:
-                            - id
-                            - name
-                      required:
-                      - id
-                      - title
-                      - author
-                      - competences
-                required:
-                - data
+                "$ref": "#/components/schemas/course_schema"
         '404':
           description: not found
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - not_found
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
+                "$ref": "#/components/schemas/not_found_schema"
     put:
       summary: update course
       tags:
@@ -732,80 +263,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    oneOf:
-                    - type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                          title:
-                            type: string
-                          author:
-                            type: object
-                            properties:
-                              id:
-                                type: integer
-                              name:
-                                type: string
-                            required:
-                            - id
-                            - name
-                          competences:
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                id:
-                                  type: integer
-                                name:
-                                  type: string
-                              required:
-                              - id
-                              - name
-                        required:
-                        - id
-                        - title
-                        - author
-                        - competences
-                    - type: object
-                      properties:
-                        id:
-                          type: integer
-                        title:
-                          type: string
-                        author:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            name:
-                              type: string
-                          required:
-                          - id
-                          - name
-                        competences:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              id:
-                                type: integer
-                              name:
-                                type: string
-                            required:
-                            - id
-                            - name
-                      required:
-                      - id
-                      - title
-                      - author
-                      - competences
-                required:
-                - data
+                "$ref": "#/components/schemas/course_schema"
       requestBody:
         content:
           application/json:
@@ -848,22 +306,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - not_found
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
+                "$ref": "#/components/schemas/not_found_schema"
   "/api/v1/users/{id}":
     delete:
       summary: delete user
@@ -884,24 +327,120 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                        enum:
-                        - not_found
-                      message:
-                        type: string
-                    required:
-                    - code
-                    - message
-                required:
-                - errors
+                "$ref": "#/components/schemas/not_found_schema"
 servers:
 - url: http://{defaultHost}
   variables:
     defaultHost:
       default: 127.0.0.1:3000
+components:
+  schemas:
+    course_item_schema:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+          required:
+          - id
+          - name
+        competences:
+          type: array
+          items:
+            "$ref": "#/components/schemas/competence_item_schema"
+      required:
+      - id
+      - title
+      - author
+      - competences
+    course_schema:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - type: array
+            items:
+              "$ref": "#/components/schemas/course_item_schema"
+          - "$ref": "#/components/schemas/course_item_schema"
+      required:
+      - data
+    competence_schema:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - type: array
+            items:
+              "$ref": "#/components/schemas/competence_item_schema"
+          - "$ref": "#/components/schemas/competence_item_schema"
+      required:
+      - data
+    competence_item_schema:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+      - id
+      - name
+    bad_request_schema:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - bad_request
+            message:
+              type: string
+          required:
+          - code
+          - message
+      required:
+      - errors
+    unprocessable_entity_schema:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - unprocessable_entity
+            message:
+              type: string
+          required:
+          - code
+          - message
+      required:
+      - errors
+    not_found_schema:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - not_found
+            message:
+              type: string
+          required:
+          - code
+          - message
+      required:
+      - errors

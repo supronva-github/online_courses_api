@@ -5,7 +5,7 @@ RSpec.shared_examples 'not_found' do |params|
   let(:id) { params[:id] }
 
   response '404', 'not found' do
-    schema Swagger::Schemas::ErrorSchema.schema('not_found')
+    schema '$ref' => '#/components/schemas/not_found_schema'
 
     run_test! do
       expect(response).to have_http_status(:not_found)

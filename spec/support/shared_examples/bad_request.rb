@@ -2,7 +2,7 @@
 
 RSpec.shared_examples 'bad_request' do
   response '400', 'bad request' do
-    schema Swagger::Schemas::ErrorSchema.schema('bad_request')
+    schema '$ref' => '#/components/schemas/bad_request_schema'
 
     run_test! do
       expect(response).to have_http_status(:bad_request)

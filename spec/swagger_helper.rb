@@ -8,6 +8,16 @@ RSpec.configure do |config|
   # to ensure that it's configured to serve Swagger from the same folder
   config.openapi_root = Rails.root.join('swagger').to_s
 
+  schemas = {}
+
+  Dir[Rails.root.join('spec/swagger/schemas/**/*.rb')].each do |file|
+    schema_name = File.basename(file, '.rb')
+    # rubocop:disable Security/Eval
+    schema_content = eval(File.read(file))
+    # rubocop:enable Security/Eval
+    schemas[schema_name] = schema_content
+  end
+
   # Define one or more Swagger documents and provide global metadata for each one
   # When you run the 'rswag:specs:swaggerize' rake task, the complete Swagger will
   # be generated at the provided relative path under openapi_root
@@ -31,7 +41,10 @@ RSpec.configure do |config|
             }
           }
         }
-      ]
+      ],
+      components: {
+        schemas: schemas
+      }
     }
   }
 

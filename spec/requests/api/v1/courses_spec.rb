@@ -34,7 +34,7 @@ RSpec.describe 'Api::V1::Courses', type: :request do
       end
 
       response '422', 'unprocessable entity' do
-        schema Swagger::Schemas::ErrorSchema.schema('unprocessable_entity')
+        schema '$ref' => '#/components/schemas/unprocessable_entity_schema'
 
         run_test! do
           expect(response).to have_http_status(:unprocessable_entity)
@@ -53,7 +53,7 @@ RSpec.describe 'Api::V1::Courses', type: :request do
         tags 'Courses API'
         produces 'application/json'
         response '200', 'courses' do
-          schema Swagger::Schemas::CourseSchema.schema
+          schema '$ref' => '#/components/schemas/course_schema'
 
           run_test!
         end
@@ -72,7 +72,7 @@ RSpec.describe 'Api::V1::Courses', type: :request do
         let(:id) { course.id }
 
         response '200', 'course' do
-          schema Swagger::Schemas::CourseSchema.schema
+          schema '$ref' => '#/components/schemas/course_schema'
 
           run_test!
         end
@@ -124,7 +124,7 @@ RSpec.describe 'Api::V1::Courses', type: :request do
         end
 
         response '201', 'course created' do
-          schema Swagger::Schemas::CourseSchema.schema
+          schema '$ref' => '#/components/schemas/course_schema'
 
           run_test! do
             expect(response).to have_http_status(:created)
@@ -180,7 +180,7 @@ RSpec.describe 'Api::V1::Courses', type: :request do
         end
 
         response '200', 'course updated' do
-          schema Swagger::Schemas::CourseSchema.schema
+          schema '$ref' => '#/components/schemas/course_schema'
 
           run_test! do
             expect(response).to have_http_status(:ok)

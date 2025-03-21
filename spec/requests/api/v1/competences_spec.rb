@@ -28,7 +28,7 @@ RSpec.describe 'Api::V1::Competences', type: :request do
       let(:competence_params) { { name: existing_competence.name } }
 
       response '422', 'unprocessable entity' do
-        schema Swagger::Schemas::ErrorSchema.schema('unprocessable_entity')
+        schema '$ref' => '#/components/schemas/unprocessable_entity_schema'
 
         run_test! do
           expect(response).to have_http_status(:unprocessable_entity)
@@ -46,7 +46,7 @@ RSpec.describe 'Api::V1::Competences', type: :request do
         tags 'Competence API'
         produces 'application/json'
         response '200', 'competences' do
-          schema Swagger::Schemas::CompetenceSchema.schema
+          schema '$ref' => '#/components/schemas/competence_schema'
 
           run_test!
         end
@@ -65,7 +65,7 @@ RSpec.describe 'Api::V1::Competences', type: :request do
         let(:id) { competence.id }
 
         response '200', 'competences' do
-          schema Swagger::Schemas::CompetenceSchema.schema
+          schema '$ref' => '#/components/schemas/competence_schema'
 
           run_test!
         end
@@ -98,7 +98,7 @@ RSpec.describe 'Api::V1::Competences', type: :request do
         let(:competence_params) { { name: 'New Competence' } }
 
         response '201', 'competence created' do
-          schema Swagger::Schemas::CompetenceSchema.schema
+          schema '$ref' => '#/components/schemas/competence_schema'
 
           run_test! do
             expect(response).to have_http_status(:created)
@@ -137,7 +137,7 @@ RSpec.describe 'Api::V1::Competences', type: :request do
         let(:competence_params) { { name: 'Updated Competence' } }
 
         response '200', 'competence updated' do
-          schema Swagger::Schemas::CompetenceSchema.schema
+          schema '$ref' => '#/components/schemas/competence_schema'
 
           run_test! do
             expect(response).to have_http_status(:ok)

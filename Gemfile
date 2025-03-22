@@ -30,6 +30,7 @@ gem 'bcrypt'
 
 gem 'dotenv'
 gem 'ffi', '~> 1.15.0'
+gem 'net-http'
 
 # JSON
 gem 'blueprinter'

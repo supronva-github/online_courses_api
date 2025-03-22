@@ -11,7 +11,6 @@ class CourseReassignmentService
       @user.destroy
       true
     end
-
   rescue StandardError
     false
   end

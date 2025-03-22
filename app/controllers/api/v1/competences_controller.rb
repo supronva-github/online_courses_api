@@ -3,7 +3,6 @@
 module Api
   module V1
     class CompetencesController < ApplicationController
-
       before_action :set_competences, only: %i[index]
       before_action :set_competence, only: %i[show update destroy]
 

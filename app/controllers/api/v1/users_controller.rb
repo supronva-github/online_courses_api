@@ -7,8 +7,7 @@ module Api
       before_action :set_user, only: %i[destroy]
 
       def destroy
-        @user.destroy
-        head :no_content
+        CourseReassignmentService.new(@user).call ?  head(:no_content) : head(:unprocessable_entity)
       end
 
       private

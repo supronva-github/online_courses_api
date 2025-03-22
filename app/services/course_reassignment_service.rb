@@ -6,10 +6,14 @@ class CourseReassignmentService
   end
 
   def call
-    return true unless user_has_courses?
+    ApplicationRecord.transaction do
+      reassign_courses_to_random_user if user_has_courses?
+      @user.destroy
+      true
+    end
 
-    reassign_courses_to_random_user
-    true
+  rescue StandardError
+    false
   end
 
   private

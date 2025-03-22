@@ -22,7 +22,7 @@ RSpec.describe CourseReassignmentService, type: :service do
       it 'reassigns courses to another user' do
         subject
 
-        expect(user.owner_cources.exists?).to be false
+        expect(user.owner_courses.exists?).to be false
       end
     end
   end

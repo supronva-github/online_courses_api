@@ -19,11 +19,11 @@ class CourseReassignmentService
   private
 
   def user_has_courses?
-    @user.owner_cources.any?
+    @user.owner_courses.any?
   end
 
   def reassign_courses_to_random_user
-    @user.owner_cources.update_all(author_id: random_user_id)
+    @user.owner_courses.update_all(author_id: random_user_id)
   end
 
   def random_user_id

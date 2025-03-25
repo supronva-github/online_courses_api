@@ -8,8 +8,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+Rake::Task['db:reset_sequences'].invoke
+
 %w[Ruby Docker RoR Git RSpec PostgreSQL Redis Kafka].map do |name|
-  Competence.create!(name: name)
+  Competence.find_or_create_by!(name: name)
 end
 
 3.times do |i|

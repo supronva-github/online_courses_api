@@ -105,6 +105,7 @@ RSpec.describe 'Api::V1::Courses', type: :request do
         tags 'Courses API'
         produces 'application/json'
         consumes 'application/json'
+        security [bearerAuth: []]
         parameter name: :Authorization, in: :header, type: :string, description: 'Authorization-Token',
                   example: 'Bearer <token>', required: true
         parameter name: :course_params, in: :body, required: true, schema: {
@@ -170,6 +171,7 @@ RSpec.describe 'Api::V1::Courses', type: :request do
         tags 'Courses API'
         produces 'application/json'
         consumes 'application/json'
+        security [bearerAuth: []]
         parameter name: :Authorization, in: :header, type: :string, description: 'Authorization-Token',
                   example: 'Bearer <token>', required: true
         parameter name: :id, in: :path, type: :string, required: true
@@ -232,6 +234,7 @@ RSpec.describe 'Api::V1::Courses', type: :request do
       delete 'delete course' do
         tags 'Courses API'
         produces 'application/json'
+        security [bearerAuth: []]
         parameter name: :Authorization, in: :header, type: :string, description: 'Authorization-Token',
                   example: 'Bearer <token>', required: true
         parameter name: :id, in: :path, type: :string, required: true, description: 'Course ID'

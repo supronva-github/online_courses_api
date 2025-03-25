@@ -171,6 +171,8 @@ paths:
       summary: create course
       tags:
       - Courses API
+      security:
+      - bearerAuth: []
       parameters:
       - name: Authorization
         in: header
@@ -264,6 +266,8 @@ paths:
       summary: update course
       tags:
       - Courses API
+      security:
+      - bearerAuth: []
       parameters:
       - name: Authorization
         in: header
@@ -341,6 +345,8 @@ paths:
       summary: delete course
       tags:
       - Courses API
+      security:
+      - bearerAuth: []
       parameters:
       - name: Authorization
         in: header
@@ -547,3 +553,7 @@ components:
           - message
       required:
       - errors
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

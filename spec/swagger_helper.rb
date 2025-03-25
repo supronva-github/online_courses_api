@@ -43,7 +43,13 @@ RSpec.configure do |config|
         }
       ],
       components: {
-        schemas: schemas
+        schemas: schemas,
+        securitySchemes: {
+          bearerAuth: {
+            type: :http,
+            scheme: :bearer
+          }
+        }
       }
     }
   }

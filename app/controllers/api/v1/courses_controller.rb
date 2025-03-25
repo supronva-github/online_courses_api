@@ -5,6 +5,8 @@ module Api
     class CoursesController < ApplicationController
       before_action :set_courses, only: %i[index]
       before_action :set_course, only: %i[show update destroy]
+      before_action :doorkeeper_authorize!, except: %i[index show]
+      before_action :verify_author!, only: %i[update destroy]
 
       def index
         render json: CourseBlueprint.render_as_json(@courses, root: :data)
@@ -15,8 +17,9 @@ module Api
       end
 
       def create
-        @course = Course.new(course_params)
+        @course = current_user.owner_courses.new(course_params)
         @course.save!
+
         render json: CourseBlueprint.render_as_json(@course, root: :data), status: :created
       end
 
@@ -44,9 +47,18 @@ module Api
         params.require(:course).permit(
           :title,
           :description,
-          :author_id,
           competence_ids: []
         )
+      end
+
+      def current_user
+        @current_user ||= User.find_by(id: doorkeeper_token&.resource_owner_id)
+      end
+
+      def verify_author!
+        return if current_user&.author_of?(@course)
+
+        handle_forbidden_access
       end
     end
   end

@@ -27,8 +27,7 @@ RSpec.describe 'Api::V1::Courses', type: :request do
       let(:course_params) do
         {
           course: {
-            title: '',
-            author_id: 1
+            title: ''
           }
         }
       end
@@ -40,10 +39,28 @@ RSpec.describe 'Api::V1::Courses', type: :request do
           expect(response).to have_http_status(:unprocessable_entity)
           parsed_response = JSON.parse(response.body)
           expect(parsed_response['errors']['code']).to eq('unprocessable_entity')
-          expect(parsed_response['errors']['message']).to include('Author must exist', "Title can't be blank",
-                                                                  "Author can't be blank")
+          expect(parsed_response['errors']['message']).to include("Title can't be blank")
         end
       end
+    end
+  end
+
+  RSpec.shared_examples 'returns unauthorized' do
+    context 'when token invalid' do
+      include_examples 'token_invalid'
+    end
+
+    context 'when token expired' do
+      include_examples 'token_expired'
+    end
+  end
+
+  RSpec.shared_examples 'returns forbidden' do
+    context 'when there is no right to action' do
+      let(:access_token) { create(:oauth_access_token) }
+      let(:Authorization) { "Bearer #{access_token.token}" }
+
+      include_examples 'forbidden'
     end
   end
 
@@ -88,6 +105,8 @@ RSpec.describe 'Api::V1::Courses', type: :request do
         tags 'Courses API'
         produces 'application/json'
         consumes 'application/json'
+        parameter name: :Authorization, in: :header, type: :string, description: 'Authorization-Token',
+                  example: 'Bearer <token>', required: true
         parameter name: :course_params, in: :body, required: true, schema: {
           type: :object,
           properties: {
@@ -109,6 +128,8 @@ RSpec.describe 'Api::V1::Courses', type: :request do
           }
         }
 
+        let(:access_token) { create(:oauth_access_token, resource_owner_id: author.id) }
+        let(:Authorization) { "Bearer #{access_token.token}" }
         let(:author) { create(:user) }
         let(:competence1) { create(:competence) }
         let(:competence2) { create(:competence) }
@@ -138,6 +159,7 @@ RSpec.describe 'Api::V1::Courses', type: :request do
 
         include_examples 'returns bad request'
         include_examples 'returns unprocessable entity'
+        include_examples 'returns unauthorized'
       end
     end
   end
@@ -148,6 +170,8 @@ RSpec.describe 'Api::V1::Courses', type: :request do
         tags 'Courses API'
         produces 'application/json'
         consumes 'application/json'
+        parameter name: :Authorization, in: :header, type: :string, description: 'Authorization-Token',
+                  example: 'Bearer <token>', required: true
         parameter name: :id, in: :path, type: :string, required: true
         parameter name: :course_params, in: :body, required: true, schema: {
           type: :object,
@@ -163,7 +187,9 @@ RSpec.describe 'Api::V1::Courses', type: :request do
           }
         }
 
-        let(:course_instance) { create(:course) }
+        let(:access_token) { create(:oauth_access_token, resource_owner_id: author.id) }
+        let(:Authorization) { "Bearer #{access_token.token}" }
+        let(:course_instance) { create(:course, author: author) }
         let(:id) { course_instance.id }
         let(:author) { create(:user) }
         let(:competence1) { create(:competence) }
@@ -191,6 +217,12 @@ RSpec.describe 'Api::V1::Courses', type: :request do
               .to match_array([competence1.id, competence2.id])
           end
         end
+
+        include_examples 'returns not found'
+        include_examples 'returns bad request'
+        include_examples 'returns unprocessable entity'
+        include_examples 'returns unauthorized'
+        include_examples 'returns forbidden'
       end
     end
   end
@@ -200,9 +232,14 @@ RSpec.describe 'Api::V1::Courses', type: :request do
       delete 'delete course' do
         tags 'Courses API'
         produces 'application/json'
+        parameter name: :Authorization, in: :header, type: :string, description: 'Authorization-Token',
+                  example: 'Bearer <token>', required: true
         parameter name: :id, in: :path, type: :string, required: true, description: 'Course ID'
 
-        let(:course) { create(:course) }
+        let(:access_token) { create(:oauth_access_token, resource_owner_id: author.id) }
+        let(:Authorization) { "Bearer #{access_token.token}" }
+        let(:author) { create(:user) }
+        let(:course) { create(:course, author: author) }
         let(:id) { course.id }
 
         response '204', 'course deleted' do
@@ -212,6 +249,8 @@ RSpec.describe 'Api::V1::Courses', type: :request do
         end
 
         include_examples 'returns not found'
+        include_examples 'returns unauthorized'
+        include_examples 'returns forbidden'
       end
     end
   end

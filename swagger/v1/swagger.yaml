@@ -171,7 +171,14 @@ paths:
       summary: create course
       tags:
       - Courses API
-      parameters: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization-Token
+        example: Bearer <token>
+        required: true
+        schema:
+          type: string
       responses:
         '201':
           description: course created
@@ -191,6 +198,12 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/unprocessable_entity_schema"
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/unauthorized_schema"
       requestBody:
         content:
           application/json:
@@ -252,6 +265,13 @@ paths:
       tags:
       - Courses API
       parameters:
+      - name: Authorization
+        in: header
+        description: Authorization-Token
+        example: Bearer <token>
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -264,6 +284,36 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/course_schema"
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/not_found_schema"
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/bad_request_schema"
+        '422':
+          description: unprocessable entity
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/unprocessable_entity_schema"
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/unauthorized_schema"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/forbidden_schema"
       requestBody:
         content:
           application/json:
@@ -292,6 +342,13 @@ paths:
       tags:
       - Courses API
       parameters:
+      - name: Authorization
+        in: header
+        description: Authorization-Token
+        example: Bearer <token>
+        required: true
+        schema:
+          type: string
       - name: id
         in: path
         required: true
@@ -307,6 +364,18 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/not_found_schema"
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/unauthorized_schema"
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/forbidden_schema"
   "/api/v1/users/{id}":
     delete:
       summary: delete user
@@ -437,6 +506,40 @@ components:
               type: string
               enum:
               - not_found
+            message:
+              type: string
+          required:
+          - code
+          - message
+      required:
+      - errors
+    unauthorized_schema:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - unauthorized
+            message:
+              type: string
+          required:
+          - code
+          - message
+      required:
+      - errors
+    forbidden_schema:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - forbidden
             message:
               type: string
           required:
